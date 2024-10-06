@@ -1,4 +1,4 @@
-package com.alihairapi.entity;
+package com.alihairapi.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,5 +21,6 @@ public class Salao {
     private String avaliacao;
     private Double preco;
     private String Servicos;
+    private String cnpj;
 
 }

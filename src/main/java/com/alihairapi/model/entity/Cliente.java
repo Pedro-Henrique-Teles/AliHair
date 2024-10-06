@@ -1,4 +1,4 @@
-package com.alihairapi.entity;
+package com.alihairapi.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,9 +13,11 @@ public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
-    public String nome;
-    public String telefone;
-    public String email;
+    private Long id;
+    private String nome;
+    private String telefone;
+    private String email;
+    private String cpf;
+
 
 }

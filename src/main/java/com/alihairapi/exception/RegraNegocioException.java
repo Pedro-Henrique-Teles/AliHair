@@ -1,4 +1,4 @@
-package com.alihairapi;
+package com.alihairapi.exception;
 
 public class RegraNegocioException extends RuntimeException {
 
