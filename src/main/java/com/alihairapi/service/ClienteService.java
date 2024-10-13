@@ -70,6 +70,9 @@ public class ClienteService {
                 throw new RegraNegocioException("O telefone deve ter ao menos 11 digitos");
             }
         }
+        if (repository.existsByTelefone(telefone)){
+            throw new RegraNegocioException("Esse telefone já existe");
+        }
     }
 
     public void validarEmail(String email) {
@@ -78,6 +81,9 @@ public class ClienteService {
         }
         if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
             throw new RegraNegocioException("Formato de e-mail inválido");
+        }
+        if (repository.existsByEmail(email)){
+            throw new RegraNegocioException("Esse email já está registrado");
         }
     }
 
@@ -94,6 +100,8 @@ public class ClienteService {
         } catch (InvalidStateException e) {
             throw new RegraNegocioException("CPF inválido");
         }
+        if (repository.existsByCpf(cpf)){
+            throw new RegraNegocioException("Esse CPF já está registrado");
+        }
     }
-
 }

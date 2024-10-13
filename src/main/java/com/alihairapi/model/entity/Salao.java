@@ -16,11 +16,16 @@ public class Salao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private String endereco;
+    private String email;
+    public String cep;
+    public String logradouro;
+    public String bairro;
+    public String cidade;
+    public String estado;
     private String telefone;
-    private String avaliacao;
     private Double preco;
     private String Servicos;
     private String cnpj;
+
 
 }
