@@ -51,8 +51,6 @@ public class SalaoService {
         validarEmail(salao.getEmail());
         validarCep(salao.getCep());
         validarTelefone(salao.getTelefone());
-        validarPreco(salao.getPreco());
-        validarServicos(salao.getServicos());
         validarCnpj(salao.getCnpj());
     }
 
@@ -130,28 +128,6 @@ public class SalaoService {
         }
         if (repository.existsByTelefone(telefone)){
             throw new RegraNegocioException("Este telefone já foi registrado");
-        }
-    }
-
-    public void validarPreco(Double preco) {
-        try {
-            if (preco == 0) {
-                throw new RegraNegocioException("O Serviço deve conter um Preço maior que zero.");
-            }
-            if (preco < 0) {
-                throw new RegraNegocioException("O preço não pode ser negativo.");
-            }
-        } catch (NullPointerException e) {
-            throw new RegraNegocioException("O Serviço deve conter um Preço.");
-        }
-    }
-
-    public void validarServicos(String servico){
-        if (servico == null || servico.trim().isEmpty()) {
-            throw new RegraNegocioException("O Serviço Não Pode Ficar Vazio");
-        }
-        if (servico.length() > 20){
-            throw new RegraNegocioException("Nome do serviço muito grande");
         }
     }
 

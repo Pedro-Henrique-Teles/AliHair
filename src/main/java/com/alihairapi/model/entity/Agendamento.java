@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Data
@@ -22,10 +24,13 @@ public class Agendamento {
     @ManyToOne
     private Salao salao;
 
+    @ManyToOne
+    private ServicosDoSalao servicos;
+
     @Temporal(TemporalType.DATE)
-    private String diaAgendamento;
+    private LocalDate diaAgendamento;
 
     @Temporal(TemporalType.TIME)
-    private String horarioAgendamento;
+    private LocalTime horarioAgendamento;
     
 }

@@ -38,7 +38,7 @@ public class SalaoControler {
     }
 
     @PostMapping
-    public ResponseEntity post(@RequestBody SalaoDTO dto){
+      public ResponseEntity post(@RequestBody SalaoDTO dto){
         try {
             Salao salao = converter(dto);
             salao = service.salvar(salao);
