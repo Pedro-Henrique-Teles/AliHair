@@ -64,7 +64,7 @@ public class SalaoControler {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity delet(@PathVariable("id") Long id){
+    public ResponseEntity delete(@PathVariable("id") Long id){
         Optional<Salao> salao = service.getSalaobyId(id);
         if (!salao.isPresent()){
             return new ResponseEntity("Salão não encontrado", HttpStatus.NOT_FOUND);

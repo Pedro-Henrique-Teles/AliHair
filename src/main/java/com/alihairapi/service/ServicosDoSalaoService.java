@@ -44,6 +44,7 @@ public class ServicosDoSalaoService {
     public void validar(ServicosDoSalao servicosDoSalao){
         validarServico(servicosDoSalao.getServico());
         validarPreco(servicosDoSalao.getPreco());
+        validarSalao(servicosDoSalao.getSalao().getId());
     }
 
     public void validarServico(String servico){
@@ -63,5 +64,10 @@ public class ServicosDoSalaoService {
         if (preco.scale()>2){
             throw new RegraNegocioException("O preço deve conter no máximo duas casas decimais");
         }
+    }
+
+    public void validarSalao(Long id){
+        if (id == null)
+            throw new RegraNegocioException("O salão não existe");
     }
 }

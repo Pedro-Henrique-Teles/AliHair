@@ -5,6 +5,7 @@ import br.com.caelum.stella.validation.InvalidStateException;
 import com.alihairapi.exception.RegraNegocioException;
 import com.alihairapi.model.entity.Salao;
 import com.alihairapi.model.repository.SalaoRepository;
+import com.alihairapi.model.repository.ServicosDoSalaoRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,12 @@ import java.util.Scanner;
 @Service
 public class SalaoService {
     private SalaoRepository repository;
+    private final ServicosDoSalaoRepository servicosDoSalaoRepository;
 
-    public SalaoService(SalaoRepository repository) {
+    public SalaoService(SalaoRepository repository,
+                        ServicosDoSalaoRepository servicosDoSalaoRepository) {
         this.repository = repository;
+        this.servicosDoSalaoRepository = servicosDoSalaoRepository;
     }
 
     public List<Salao> getSalao() {

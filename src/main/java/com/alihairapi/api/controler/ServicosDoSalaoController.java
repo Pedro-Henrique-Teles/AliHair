@@ -3,7 +3,6 @@ package com.alihairapi.api.controler;
 import com.alihairapi.api.dto.ServicosDoSalaoDTO;
 import com.alihairapi.exception.RegraNegocioException;
 import com.alihairapi.model.entity.ServicosDoSalao;
-import com.alihairapi.model.repository.ServicosDoSalaoRepository;
 import com.alihairapi.service.ServicosDoSalaoService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -23,7 +22,6 @@ import java.util.stream.Collectors;
 public class ServicosDoSalaoController {
 
     private final ServicosDoSalaoService service;
-    private final ServicosDoSalaoRepository servicosDoSalaoRepository;
 
     @GetMapping()
     public ResponseEntity get() {
