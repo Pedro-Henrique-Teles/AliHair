@@ -5,25 +5,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Salao {
+public class ServicosDoSalao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
-    private String email;
-    public String cep;
-    public String logradouro;
-    public String bairro;
-    public String cidade;
-    public String estado;
-    private String telefone;
-    private String cnpj;
 
-
+    @ManyToOne
+    private Salao salao;
+    private String servico;
+    private BigDecimal preco;
 }

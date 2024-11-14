@@ -57,7 +57,6 @@ public class ClienteService {
         }
     }
 
-
     public void validarTelefone(String telefone) {
         if (telefone == null || telefone.trim().isEmpty()) {
             throw new RegraNegocioException("O telefone, não pode estar vazio");

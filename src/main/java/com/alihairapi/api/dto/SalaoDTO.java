@@ -20,7 +20,6 @@ public class SalaoDTO {
     public String estado;
     private String telefone;
     private Double preco;
-    private String Servicos;
     private String cnpj;
     private String email;
 
