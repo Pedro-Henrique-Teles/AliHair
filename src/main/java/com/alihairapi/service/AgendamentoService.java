@@ -5,12 +5,12 @@ import com.alihairapi.model.entity.Agendamento;
 import com.alihairapi.model.entity.Cliente;
 import com.alihairapi.model.entity.Salao;
 import com.alihairapi.model.repository.AgendamentoRepository;
-import org.springframework.expression.spel.ast.OpAnd;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -49,22 +49,28 @@ public class AgendamentoService {
     public void validar(Agendamento agendamento) {
         validarCliente(agendamento.getCliente());
         validarSalao(agendamento.getSalao());
-        validarDiaAgendamento(agendamento.getDiaAgendamento());
-        validarHorarioAgendamento(agendamento.getHorarioAgendamento());
+
+        // Converter diaAgendamento de String para LocalDate
+        String dataAgendamentoStr = agendamento.getDiaAgendamento();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate diaAgendamento = LocalDate.parse(dataAgendamentoStr, dateFormatter);
+        validarDiaAgendamento(diaAgendamento);
+
+        // Converter horarioAgendamento de String para LocalTime
+        String horarioAgendamentoStr = agendamento.getHorarioAgendamento();
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime horarioAgendamento = LocalTime.parse(horarioAgendamentoStr, timeFormatter);
+        validarHorarioAgendamento(horarioAgendamento);
     }
 
     public void validarCliente(Cliente cliente) {
-        if (cliente == null ||
-                cliente.getId() == null ||
-                cliente.getId() == 0) {
+        if (cliente == null || cliente.getId() == null || cliente.getId() == 0) {
             throw new RegraNegocioException("Cliente Inválido");
         }
     }
 
     public void validarSalao(Salao salao) {
-        if (salao == null ||
-                salao.getId() == null ||
-                salao.getId() == 0) {
+        if (salao == null || salao.getId() == null || salao.getId() == 0) {
             throw new RegraNegocioException("Salão Inválido");
         }
     }

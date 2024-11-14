@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 public class SalaoControler {
 
     private final SalaoService service;
-
     @GetMapping()
     public ResponseEntity get() {
         List<Salao> saloes = service.getSalao();
