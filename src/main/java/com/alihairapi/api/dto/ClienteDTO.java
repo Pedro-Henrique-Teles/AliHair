@@ -15,6 +15,7 @@ public class ClienteDTO {
     private String telefone;
     private String email;
     private String cpf;
+    private String senha;
 
 
     public static ClienteDTO create(Cliente cliente){

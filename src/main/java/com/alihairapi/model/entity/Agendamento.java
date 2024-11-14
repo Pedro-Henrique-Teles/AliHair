@@ -28,4 +28,6 @@ public class Agendamento {
     @Temporal(TemporalType.TIME)
     private String horarioAgendamento;
 
+    private String nomeCliente; // Adiciona este campo }
+
 }

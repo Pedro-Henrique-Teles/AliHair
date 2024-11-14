@@ -37,6 +37,7 @@ public class AgendamentoService {
     @Transactional
     public Agendamento salvar(Agendamento agendamento) {
         validar(agendamento);
+        agendamento.setNomeCliente(agendamento.getCliente().getNome()); // Defina o nome do cliente aqui
         return repository.save(agendamento);
     }
 
@@ -94,5 +95,4 @@ public class AgendamentoService {
             throw new RegraNegocioException("O horário de agendamento deve estar entre 8:00 e 18:00.");
         }
     }
-
 }

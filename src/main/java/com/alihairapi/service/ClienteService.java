@@ -46,6 +46,7 @@ public class ClienteService {
         validarTelefone(cliente.getTelefone());
         validarEmail(cliente.getEmail());
         validarCpf(cliente.getCpf());
+        validarSenha(cliente.getSenha());
     }
 
     private void validarNome(String nome) {
@@ -59,15 +60,11 @@ public class ClienteService {
 
     public void validarTelefone(String telefone) {
         if (telefone == null || telefone.trim().isEmpty()) {
-            throw new RegraNegocioException("O telefone, não pode estar vazio");
-        }
-        if (telefone == null || telefone.trim().isEmpty()) {
             throw new RegraNegocioException("O telefone não pode estar vazio");
-        } else {
-            String telefoneLimpo = telefone.replaceAll("([^\\d])", "");
-            if (telefoneLimpo.length() != 11) {
-                throw new RegraNegocioException("O telefone deve ter ao menos 11 digitos");
-            }
+        }
+        String telefoneLimpo = telefone.replaceAll("([^\\d])", "");
+        if (telefoneLimpo.length() != 11) {
+            throw new RegraNegocioException("O telefone deve ter ao menos 11 dígitos");
         }
         if (repository.existsByTelefone(telefone)){
             throw new RegraNegocioException("Esse telefone já existe");
@@ -87,12 +84,9 @@ public class ClienteService {
     }
 
     private void validarCpf(String cpf) {
-
         if (cpf == null || cpf.trim().isEmpty()) {
             throw new RegraNegocioException("CPF não pode estar vazio");
         }
-
-        //Validação com (Stella Caelum) -> Stella Core
         CPFValidator cpfValidator = new CPFValidator();
         try {
             cpfValidator.assertValid(cpf);
@@ -101,6 +95,15 @@ public class ClienteService {
         }
         if (repository.existsByCpf(cpf)){
             throw new RegraNegocioException("Esse CPF já está registrado");
+        }
+    }
+
+    private void validarSenha(String senha) {
+        if (senha == null || senha.trim().isEmpty()) {
+            throw new RegraNegocioException("Senha não pode estar vazia");
+        }
+        if (senha.length() < 6) {
+            throw new RegraNegocioException("Senha deve ter pelo menos 6 caracteres");
         }
     }
 }
