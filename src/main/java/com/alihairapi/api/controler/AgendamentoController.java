@@ -1,19 +1,10 @@
-package com.alihairapi.api.controller;
+package com.alihairapi.api.controler;
 
-<<<<<<< HEAD
 import com.alihairapi.api.dto.AgendamentoDTO;
-import com.alihairapi.model.entity.Agendamento;
-import com.alihairapi.service.AgendamentoService;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-=======
-import com.alihairapi.exception.RegraNegocioException;
 import com.alihairapi.model.entity.Agendamento;
 import com.alihairapi.model.entity.Cliente;
 import com.alihairapi.service.AgendamentoService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,39 +13,37 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
->>>>>>> 76c29d1ce845987a379eb167688c497540a810a2
 @RestController
-@RequestMapping("/api/agendamentos")
+@RequestMapping("v1/agendamento")
 public class AgendamentoController {
 
-<<<<<<< HEAD
-    @Autowired
-    private AgendamentoService agendamentoService;
+    private final AgendamentoService service;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    private ModelMapper modelMapper;
+    public AgendamentoController(AgendamentoService service, ModelMapper modelMapper) {
+        this.service = service;
+        this.modelMapper = modelMapper;
+    }
 
     @PostMapping
     public ResponseEntity<AgendamentoDTO> criarAgendamento(@RequestBody AgendamentoDTO agendamentoDTO) {
         try {
+            // Validação de exemplo
+            if (agendamentoDTO.getNomeCliente() == null || agendamentoDTO.getNomeCliente().isEmpty()) {
+                return ResponseEntity.badRequest().body(null);
+            }
+
             Agendamento agendamento = modelMapper.map(agendamentoDTO, Agendamento.class);
-            Agendamento agendamentoSalvo = agendamentoService.salvar(agendamento);
+            Agendamento agendamentoSalvo = service.salvar(agendamento);
             AgendamentoDTO agendamentoSalvoDTO = modelMapper.map(agendamentoSalvo, AgendamentoDTO.class);
             return ResponseEntity.ok(agendamentoSalvoDTO);
         } catch (Exception e) {
-            e.printStackTrace(); // Imprime a stack trace para ajudar na depuração
-            return ResponseEntity.status(500).body(null);
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
-    // Outros endpoints como buscar, atualizar, deletar podem ser adicionados aqui
-=======
-    private final AgendamentoService service;
-
-    @Autowired
-    public AgendamentoController(AgendamentoService service) {
-        this.service = service;
-    }
 
     @GetMapping
     public ResponseEntity<List<Agendamento>> getAllAgendamentos() {
@@ -75,16 +64,6 @@ public class AgendamentoController {
         Optional<Cliente> cliente = Optional.of(new Cliente()); // Alterar conforme a lógica real para buscar o cliente
         List<Agendamento> agendamentos = service.getAgendamentoByCliente(cliente);
         return ResponseEntity.ok(agendamentos);
-    }
-
-    @PostMapping
-    public ResponseEntity<Agendamento> createAgendamento(@RequestBody Agendamento agendamento) {
-        try {
-            Agendamento savedAgendamento = service.salvar(agendamento);
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedAgendamento);
-        } catch (RegraNegocioException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
     }
 
     @DeleteMapping("/{id}")
@@ -109,5 +88,4 @@ public class AgendamentoController {
             return ResponseEntity.notFound().build();
         }
     }
->>>>>>> 76c29d1ce845987a379eb167688c497540a810a2
 }
