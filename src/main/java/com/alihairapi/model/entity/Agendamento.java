@@ -1,7 +1,7 @@
 package com.alihairapi.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+        import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,5 +27,5 @@ public class Agendamento {
 
     @Temporal(TemporalType.TIME)
     private String horarioAgendamento;
-    
+
 }
