@@ -43,9 +43,9 @@ public class ClienteService {
 
     public void validar(Cliente cliente) {
         validarNome(cliente.getNome());
-        validarTelefone(cliente.getTelefone());
-        validarEmail(cliente.getEmail());
-        validarCpf(cliente.getCpf());
+        validarTelefone(cliente.getTelefone(), cliente.getId());
+        validarEmail(cliente.getEmail(), cliente.getId());
+        validarCpf(cliente.getCpf(), cliente.getId());
         validarSenha(cliente.getSenha());
     }
 
@@ -58,7 +58,7 @@ public class ClienteService {
         }
     }
 
-    public void validarTelefone(String telefone) {
+    public void validarTelefone(String telefone, Long id) {
         if (telefone == null || telefone.trim().isEmpty()) {
             throw new RegraNegocioException("O telefone não pode estar vazio");
         }
@@ -66,24 +66,24 @@ public class ClienteService {
         if (telefoneLimpo.length() != 11) {
             throw new RegraNegocioException("O telefone deve ter ao menos 11 dígitos");
         }
-        if (repository.existsByTelefone(telefone)){
+        if (repository.existsByTelefone(telefone) && !repository.findById(id).map(cliente -> cliente.getTelefone().equals(telefone)).orElse(false)) {
             throw new RegraNegocioException("Esse telefone já existe");
         }
     }
 
-    public void validarEmail(String email) {
+    public void validarEmail(String email, Long id) {
         if (email == null || email.trim().isEmpty()) {
             throw new RegraNegocioException("E-mail inválido");
         }
         if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
             throw new RegraNegocioException("Formato de e-mail inválido");
         }
-        if (repository.existsByEmail(email)){
+        if (repository.existsByEmail(email) && !repository.findById(id).map(cliente -> cliente.getEmail().equals(email)).orElse(false)) {
             throw new RegraNegocioException("Esse email já está registrado");
         }
     }
 
-    private void validarCpf(String cpf) {
+    private void validarCpf(String cpf, Long id) {
         if (cpf == null || cpf.trim().isEmpty()) {
             throw new RegraNegocioException("CPF não pode estar vazio");
         }
@@ -93,7 +93,7 @@ public class ClienteService {
         } catch (InvalidStateException e) {
             throw new RegraNegocioException("CPF inválido");
         }
-        if (repository.existsByCpf(cpf)){
+        if (repository.existsByCpf(cpf) && !repository.findById(id).map(cliente -> cliente.getCpf().equals(cpf)).orElse(false)) {
             throw new RegraNegocioException("Esse CPF já está registrado");
         }
     }
