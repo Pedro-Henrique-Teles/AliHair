@@ -52,9 +52,9 @@ public class SalaoService {
 
     public void validar(Salao salao) {
         validarNome(salao.getNome());
-        validarEmail(salao.getEmail());
+        validarEmail(salao.getEmail(), salao.getId());
         validarCep(salao.getCep());
-        validarTelefone(salao.getTelefone());
+        validarTelefone(salao.getTelefone(), salao.getId());
         validarCnpj(salao.getCnpj());
     }
 
@@ -67,14 +67,14 @@ public class SalaoService {
         }
     }
 
-    public void validarEmail(String email) {
+    public void validarEmail(String email, Long id) {
         if (email == null || email.trim().isEmpty()) {
             throw new RegraNegocioException("E-mail inválido");
         }
         if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
             throw new RegraNegocioException("Formato de e-mail inválido");
         }
-        if (repository.existsByEmail(email)){
+        if (repository.existsByEmail(email) && !repository.findById(id).map(salao -> salao.getEmail().equals(email)).orElse(false)) {
             throw new RegraNegocioException("Esse email já está registrado");
         }
     }
@@ -118,35 +118,34 @@ public class SalaoService {
         }
     }
 
-    public void validarTelefone(String telefone) {
+    public void validarTelefone(String telefone, Long id) {
         if (telefone == null || telefone.trim().isEmpty()) {
-            throw new RegraNegocioException("O telefone, não pode estar vazio");
+            throw new RegraNegocioException("O telefone não pode estar vazio");
         }
         if (telefone == null || telefone.trim().isEmpty()) {
             throw new RegraNegocioException("O telefone não pode estar vazio");
         } else {
             String telefoneLimpo = telefone.replaceAll("([^\\d])", "");
             if (telefoneLimpo.length() != 11) {
-                throw new RegraNegocioException("O telefone deve ter ao menos 11 digitos");
+                throw new RegraNegocioException("O telefone deve ter ao menos 11 dígitos");
             }
         }
-        if (repository.existsByTelefone(telefone)){
+        if (repository.existsByTelefone(telefone) && !repository.findById(id).map(salao -> salao.getTelefone().equals(telefone)).orElse(false)) {
             throw new RegraNegocioException("Este telefone já foi registrado");
         }
     }
 
-    public void validarCnpj(String cnpj){
-        //Limpando " . " e " / " do cnpj
+    public void validarCnpj(String cnpj) {
+        // Limpando "." e "/" do cnpj
         cnpj = cnpj.replaceAll("[^0-9]", "");
         CNPJValidator cnpjValidator = new CNPJValidator();
         try {
             cnpjValidator.assertValid(cnpj);
-        }catch (InvalidStateException e){
+        } catch (InvalidStateException e) {
             throw new RegraNegocioException("CNPJ inválido");
         }
-        if (repository.existsByCnpj(cnpj)){
+        if (repository.existsByCnpj(cnpj)) {
             throw new RegraNegocioException("Este CNPJ já foi registrado");
         }
     }
-
 }
